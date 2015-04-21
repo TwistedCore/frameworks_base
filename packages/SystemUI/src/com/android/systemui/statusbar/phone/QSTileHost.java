@@ -54,6 +54,7 @@ import com.android.systemui.qs.tiles.DataSaverTile;
 import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.ExpandedDesktopTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
+import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.ImeTile;
 import com.android.systemui.qs.tiles.IntentTile;
@@ -457,6 +458,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("sound")) return new SoundTile(this);
         else if (tileSpec.equals("sync")) return new SyncTile(this);
         else if (tileSpec.equals("expanded_desktop")) return new ExpandedDesktopTile(this);
+        else if (tileSpec.equals("heads_up")) return new HeadsUpTile(this);
         else if (tileSpec.equals("androidauto")) return new AndroidAutoTile(this);
         else if (tileSpec.equals("navigation_bar")) return new NavigationBarTile(this);
         // Intent tiles.

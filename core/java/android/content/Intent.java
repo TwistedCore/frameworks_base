@@ -3218,6 +3218,10 @@ public class Intent implements Parcelable, Cloneable {
     public static final String EXTRA_PROCESS_TEXT_READONLY =
             "android.intent.extra.PROCESS_TEXT_READONLY";
 
+    /** {@hide} */
+    public static final String ACTION_DOZE_PULSE_STARTING =
+            "android.intent.action.DOZE_PULSE_STARTING";
+
     /**
      * Broadcast action: reports when a new thermal event has been reached. When the device
      * is reaching its maximum temperatue, the thermal level reported

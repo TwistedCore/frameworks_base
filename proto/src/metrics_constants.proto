@@ -2229,5 +2229,8 @@ message MetricsEvent {
     
     // Flash Metrics
     FLASH = 422;
+
+    // Location detail adapter
+    QS_LOCATION_DETAIL = 504;
   }
 }

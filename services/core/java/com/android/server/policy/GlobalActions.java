@@ -30,6 +30,7 @@ import com.android.internal.widget.LockPatternUtils;
 import android.app.ActivityManager;
 import android.app.ActivityManagerNative;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -49,6 +50,10 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraAccessException;
+import android.Manifest;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.os.Build;
@@ -75,6 +80,7 @@ import android.text.TextUtils;
 import android.util.ArraySet;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -84,6 +90,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManagerGlobal;
+import android.view.WindowManagerInternal;
 import android.view.WindowManagerPolicy.WindowManagerFuncs;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.AdapterView;
@@ -95,8 +102,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.android.internal.util.flash.PowerMenuConstants.*;
+import com.android.internal.util.benzo.OnTheGoActions;
 
 /**
  * Helper to show the global actions dialog.  Each item is an {@link Action} that
@@ -281,6 +290,35 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         onAirplaneModeChanged();
 
         mItems = new ArrayList<Action>();
+
+        // next: On-The-Go, if enabled
+	ContentResolver resolver = mContext.getContentResolver();
+        boolean showOnTheGo = Settings.System.getInt(
+                resolver, Settings.System.POWER_MENU_ONTHEGO_ENABLED, 0) == 1;
+        if (showOnTheGo) {
+            mItems.add(
+                new SinglePressAction(com.android.internal.R.drawable.ic_lock_onthego,
+                        R.string.global_action_onthego) {
+
+                        public void onPress() {
+                            OnTheGoActions.processAction(mContext,
+                                    OnTheGoActions.ACTION_ONTHEGO_TOGGLE);
+                        }
+
+                        public boolean onLongPress() {
+                            return false;
+                        }
+
+                        public boolean showDuringKeyguard() {
+                            return true;
+                        }
+
+                        public boolean showBeforeProvisioning() {
+                            return true;
+                        }
+                    }
+            );
+        }
 
         String[] actionsArray;
         if (mActions == null) {
@@ -692,6 +730,15 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 }
             }
         }
+    }
+
+    private void startOnTheGo() {
+        final ComponentName cn = new ComponentName("com.android.systemui",
+                "com.android.systemui.benzo.onthego.OnTheGoService");
+        final Intent startIntent = new Intent();
+        startIntent.setComponent(cn);
+        startIntent.setAction("start");
+        mContext.startService(startIntent);
     }
 
     /**

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2015 The Pure Nexus Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +48,6 @@ import android.os.Vibrator;
 import android.os.SystemVibrator;
 import android.os.storage.IMountService;
 import android.os.storage.IMountShutdownObserver;
-import android.provider.Settings;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.widget.ListView;
@@ -57,6 +57,8 @@ import com.android.server.pm.PackageManagerService;
 
 import android.util.Log;
 import android.view.WindowManager;
+import java.lang.reflect.Method;
+import dalvik.system.PathClassLoader;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -141,11 +143,13 @@ public final class ShutdownThread extends Thread {
     }
 
     private static boolean isAdvancedRebootPossible(final Context context) {
+        KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        boolean keyguardLocked = km.inKeyguardRestrictedInputMode() && km.isKeyguardSecure();
         boolean advancedRebootEnabled = context.getResources().getBoolean(
             com.android.internal.R.bool.config_advanced_reboot);
-        boolean isPrimaryUser = UserHandle.getCallingUserId() == UserHandle.USER_SYSTEM;
+        boolean isPrimaryUser = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
 
-        return advancedRebootEnabled && !mRebootSafeMode && isPrimaryUser;
+        return advancedRebootEnabled && !mRebootSafeMode && !keyguardLocked && isPrimaryUser;
     }
 
     static void shutdownInner(final Context context, boolean confirm) {
@@ -159,19 +163,10 @@ public final class ShutdownThread extends Thread {
         }
 
         boolean showRebootOption = false;
-
-        String[] actionsArray;
-        String actions = Settings.Global.getStringForUser(context.getContentResolver(),
-                Settings.Global.POWER_MENU_ACTIONS, UserHandle.USER_CURRENT);
-        if (actions == null) {
-            actionsArray = context.getResources().getStringArray(
-                    com.android.internal.R.array.config_globalActionsList);
-        } else {
-            actionsArray = actions.split("\\|");
-        }
-
-        for (int i = 0; i < actionsArray.length; i++) {
-            if (actionsArray[i].equals("reboot")) {
+        String[] defaultActions = context.getResources().getStringArray(
+                com.android.internal.R.array.config_globalActionsList);
+        for (int i = 0; i < defaultActions.length; i++) {
+            if (defaultActions[i].equals("reboot")) {
                 showRebootOption = true;
                 break;
             }
@@ -197,11 +192,12 @@ public final class ShutdownThread extends Thread {
                 sConfirmDialog.dismiss();
                 sConfirmDialog = null;
             }
+
             AlertDialog.Builder confirmDialogBuilder = new AlertDialog.Builder(context)
                     .setTitle(mRebootSafeMode
                             ? com.android.internal.R.string.reboot_safemode_title
                             : showRebootOption
-                                    ? com.android.internal.R.string.global_action_reboot
+                                    ? com.android.internal.R.string.reboot_title
                                     : com.android.internal.R.string.power_off);
 
             if (!advancedReboot) {
@@ -372,13 +368,8 @@ public final class ShutdownThread extends Thread {
                 pd.setMessage(context.getText(
                             com.android.internal.R.string.reboot_to_update_reboot));
             }
-        } else if (PowerManager.REBOOT_RECOVERY.equals(mReason)) {
-            // Factory reset path. Set the dialog message accordingly.
-            pd.setTitle(context.getText(com.android.internal.R.string.global_action_reboot));
-            pd.setMessage(context.getText(
-                        com.android.internal.R.string.reboot_progress));
         } else if (mReboot) {
-            pd.setTitle(context.getText(com.android.internal.R.string.global_action_reboot));
+            pd.setTitle(context.getText(com.android.internal.R.string.reboot_title));
             pd.setMessage(context.getText(com.android.internal.R.string.reboot_progress));
             pd.setIndeterminate(true);
         } else {
@@ -723,6 +714,7 @@ public final class ShutdownThread extends Thread {
      * @param reason reason for reboot/shutdown
      */
     public static void rebootOrShutdown(final Context context, boolean reboot, String reason) {
+        deviceRebootOrShutdown(reboot, reason);
         if (reboot) {
             Log.i(TAG, "Rebooting, reason: " + reason);
             PowerManagerService.lowLevelReboot(reason);
@@ -748,6 +740,30 @@ public final class ShutdownThread extends Thread {
         // Shutdown power
         Log.i(TAG, "Performing low-level shutdown...");
         PowerManagerService.lowLevelShutdown(reason);
+    }
+
+    private static void deviceRebootOrShutdown(boolean reboot, String reason) {
+        Class<?> cl;
+        PathClassLoader oemClassLoader = new PathClassLoader("/system/framework/oem-services.jar",
+            ClassLoader.getSystemClassLoader());
+        String deviceShutdownClassName = "com.qti.server.power.ShutdownOem";
+        try{
+            cl = Class.forName(deviceShutdownClassName);
+            Method m;
+            try {
+                m = cl.getMethod("rebootOrShutdown", new Class[] {boolean.class, String.class});
+                m.invoke(cl.newInstance(), reboot, reason);
+            } catch (NoSuchMethodException ex) {
+                Log.e(TAG, "rebootOrShutdown method not found in class "
+                        + deviceShutdownClassName);
+            } catch (Exception ex) {
+                Log.e(TAG, "Unknown exception hit while trying to invoke rebootOrShutdown");
+            }
+        } catch(ClassNotFoundException e) {
+            Log.e(TAG, "Unable to find class " + deviceShutdownClassName);
+        } catch (Exception e) {
+            Log.e(TAG, "Unknown exception while trying to invoke rebootOrShutdown");
+        }
     }
 
     private void uncrypt() {

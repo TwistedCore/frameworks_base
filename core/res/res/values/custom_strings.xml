@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
      Copyright (C) 2016 The Pure Nexus Project
-     Copyright (C) 2016 Flash ROM
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -17,18 +16,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- True if the notifications should dynamically tint the app icon and app title -->
-    <bool name="config_allowNotificationIconTextTinting">true</bool>
-
-    <!-- Whether doze should invert colors for notifications. If the RRO theme causes
-    the NORMAL notification background to be dark and the text to be light, this boolean
-    needs to be set to false, to prevent the doze notifications from being light -->
-    <bool name="config_invert_colors_on_doze">true</bool>
-
-    <!-- Quick settings tiles columns and rows config -->
-    <integer name="config_qs_num_rows_landscape_default">2</integer>
-
     <!-- kill app long press back -->
-    <integer name="config_backKillTimeout">1000</integer>
+    <string name="app_killed_message">App killed</string>
 
 </resources>

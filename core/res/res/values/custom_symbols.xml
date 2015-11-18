@@ -35,4 +35,8 @@
     <dimen name="floating_action_button_margin_side">32dp</dimen>
     <dimen name="floating_action_button_margin_bottom">46dp</dimen>
 
+  <java-symbol type="drawable" name="ic_audio_notification_new" />
+  <java-symbol type="drawable" name="ic_audio_notification_mute_new" />
+  <java-symbol type="drawable" name="ic_audio_notification_mute_alpha" />
+
 </resources>

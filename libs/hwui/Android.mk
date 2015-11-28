@@ -111,7 +111,7 @@ hwui_test_common_src_files := \
 hwui_cflags := \
     -DEGL_EGLEXT_PROTOTYPES -DGL_GLEXT_PROTOTYPES \
     -DATRACE_TAG=ATRACE_TAG_VIEW -DLOG_TAG=\"OpenGLRenderer\" \
-    -Wall -Wno-unused-parameter -Wunreachable-code -Werror
+    -Wall -Wno-unused-parameter -Wunreachable-code -Werror -Wno-error=strict-aliasing
 
 # GCC false-positives on this warning, and since we -Werror that's
 # a problem

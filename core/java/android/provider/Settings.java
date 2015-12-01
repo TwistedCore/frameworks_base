@@ -7526,6 +7526,14 @@ public final class Settings {
         @SystemApi
         public static final String WEBVIEW_MULTIPROCESS = "webview_multiprocess";
 
+        /**
+         * Whether the system auto-configure the priority of the wifi ap's or use
+         * the manual settings established by the user.
+         * <> 0 to autoconfigure, 0 to manual settings. Default is <> 0.
+         * @hide
+         */
+        public static final String WIFI_AUTO_PRIORITIES_CONFIGURATION = "wifi_auto_priority";
+
        /**
         * Whether Wifi display is enabled/disabled
         * 0=disabled. 1=enabled.

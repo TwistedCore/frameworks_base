@@ -2373,8 +2373,7 @@ public class Notification implements Parcelable
         private NotificationColorUtil getColorUtil() {
             if (!mColorUtilInited) {
                 mColorUtilInited = true;
-                if (mContext.getApplicationInfo().targetSdkVersion < Build.VERSION_CODES.LOLLIPOP) {
-                    mColorUtil = NotificationColorUtil.getInstance(mContext);
+                mColorUtil = NotificationColorUtil.getInstance(mContext);
                 }
             }
             return mColorUtil;

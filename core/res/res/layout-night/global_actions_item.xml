@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|start"
             android:gravity="center_vertical|start"
+            android:textColor="@color/primary_text_default_material_dark"
             android:textAppearance="?android:attr/textAppearanceLarge"
             />
         <TextView android:id="@+id/status"
@@ -52,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|start"
             android:minHeight="26dp"
+            android:textColor="@color/secondary_text_default_material_dark"
             android:textAppearance="?android:attr/textAppearanceSmall"
             />
     </LinearLayout>

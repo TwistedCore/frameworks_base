@@ -7030,7 +7030,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     } else if (mContext.getPackageManager().hasSystemFeature(FEATURE_TELEVISION)) {
                         theme = com.android.internal.R.style.Theme_Leanback_Dialog_Alert;
                     } else {
-                        theme = 5;
+                        theme = 6;
                     }
 
                     mBootMsgDialog = new ProgressDialog(mContext, theme) {

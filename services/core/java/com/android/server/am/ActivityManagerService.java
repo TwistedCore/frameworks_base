@@ -2071,6 +2071,8 @@ public final class ActivityManagerService extends ActivityManagerNative
                     mountService.setField(StorageManager.SYSTEM_LOCALE_KEY, l.toLanguageTag());
                 } catch (RemoteException e) {
                     Log.e(TAG, "Error storing locale for decryption UI", e);
+                } catch (IllegalStateException e) {
+                    Log.e(TAG, "Error storing locale for decryption UI", e);
                 }
                 break;
             }

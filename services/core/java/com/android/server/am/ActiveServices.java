@@ -87,8 +87,11 @@ public final class ActiveServices {
 
     private static final boolean LOG_SERVICE_START_STOP = false;
 
+    static final int TIMEOUT_SCALE = Integer.parseInt(
+		    SystemProperties.get("ro.config.timeout_scale", "1"));
+
     // How long we wait for a service to finish executing.
-    static final int SERVICE_TIMEOUT = 20*1000;
+    static final int SERVICE_TIMEOUT = 20*1000*TIMEOUT_SCALE;
 
     // How long we wait for a service to finish executing.
     static final int SERVICE_BACKGROUND_TIMEOUT = SERVICE_TIMEOUT * 10;

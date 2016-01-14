@@ -467,12 +467,15 @@ public final class ActivityManagerService extends ActivityManagerNative
     // enough data on CPU usage to start killing things.
     static final int CPU_MIN_CHECK_DURATION = (DEBUG_POWER_QUICK ? 1 : 5) * 60*1000;
 
-    // How long we allow a receiver to run before giving up on it.
-    static final int BROADCAST_FG_TIMEOUT = 10*1000;
-    static final int BROADCAST_BG_TIMEOUT = 60*1000;
+    // Can be used to increase some timeout for some slow system such as emulator.
+    static final int TIMEOUT_SCALE = Integer.parseInt(
+		    SystemProperties.get("ro.config.timeout_scale", "1"));
 
+    // How long we allow a receiver to run before giving up on it.
+    static final int BROADCAST_FG_TIMEOUT = 10*1000*TIMEOUT_SCALE;
+    static final int BROADCAST_BG_TIMEOUT = 60*1000*TIMEOUT_SCALE;
     // How long we wait until we timeout on key dispatching.
-    static final int KEY_DISPATCHING_TIMEOUT = 5*1000;
+    static final int KEY_DISPATCHING_TIMEOUT = 5*1000*TIMEOUT_SCALE;
 
     // How long we wait until we timeout on key dispatching during instrumentation.
     static final int INSTRUMENTATION_KEY_DISPATCHING_TIMEOUT = 60*1000;

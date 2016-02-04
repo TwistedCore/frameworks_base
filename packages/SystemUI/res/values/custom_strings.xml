@@ -42,6 +42,11 @@
     <string name="accessibility_quick_settings_network_adb_changed_off">ADB over network turned off.</string>
     <string name="accessibility_quick_settings_network_adb_changed_on">ADB over network turned on.</string>
 
+    <!-- Caffeine QS Tile -->
+    <string name="quick_settings_caffeine_label">Caffeine</string>
+    <string name="accessibility_quick_settings_caffeine_off">Caffeine off.</string>
+    <string name="accessibility_quick_settings_caffeine_on">Caffeine on.</string>
+
     <!-- Music QS Tile -->
     <string name="quick_settings_music_label">Music</string>
     <string name="quick_settings_music_play">Play</string>

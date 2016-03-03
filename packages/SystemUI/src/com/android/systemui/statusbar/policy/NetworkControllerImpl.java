@@ -796,6 +796,10 @@ public class NetworkControllerImpl extends BroadcastReceiver
                             : Math.min(Integer.parseInt(level), icons[0].length - 1);
                     controller.getState().connected = controller.getState().level >= 0;
                 }
+                String volte = args.getString("volte");
+                if (volte != null) {
+                    controller.getState().volteAvailable = volte.equals("show");
+                }
                 controller.getState().enabled = show;
                 controller.notifyListeners();
             }
@@ -852,7 +856,8 @@ public class NetworkControllerImpl extends BroadcastReceiver
         boolean alwaysShowCdmaRssi = false;
         boolean show4gForLte = false;
         boolean hspaDataDistinguishable;
-	boolean hspapDataDistinguishable;
+	    boolean hspapDataDistinguishable;
+        boolean showVolteIcon = false;
 
         static Config readConfig(Context context) {
             Config config = new Config();
@@ -866,6 +871,8 @@ public class NetworkControllerImpl extends BroadcastReceiver
                     res.getBoolean(R.bool.config_hspa_data_distinguishable);
             config.hspapDataDistinguishable =
                     res.getBoolean(R.bool.config_hspap_data_distinguishable);
+            config.showVolteIcon =
+                    res.getBoolean(R.bool.config_showVolteIcon);
             return config;
         }
     }

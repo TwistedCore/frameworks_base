@@ -206,6 +206,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     private float mFontScale;
 
     protected boolean mUseHeadsUp = false;
+    protected boolean mHeadsUpUserEnabled = false;
     protected boolean mHeadsUpTicker = false;
     protected boolean mDisableNotificationAlerts = false;
 
@@ -2536,7 +2537,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     protected boolean shouldPeek(Entry entry, StatusBarNotification sbn) {
-        if (!mUseHeadsUp || isDeviceInVrMode()) {
+        if (!mUseHeadsUp || !mHeadsUpUserEnabled || isDeviceInVrMode()) {
             return false;
         }
 

@@ -710,7 +710,28 @@ final class DefaultPermissionGrantPolicy {
                 grantRuntimePermissionsLPw(vendingPackage, LOCATION_PERMISSIONS, userId);
                 grantRuntimePermissionsLPw(vendingPackage, SMS_PERMISSIONS, userId);
                 grantRuntimePermissionsLPw(vendingPackage, STORAGE_PERMISSIONS, userId);
-            }	
+            }
+
+            // Project Fi
+            PackageParser.Package fiPackage = getDefaultProviderAuthorityPackageLPr(
+                    "com.google.android.apps.tycho", userId);
+            if (fiPackage != null) {
+                grantRuntimePermissionsLPw(fiPackage, CONTACTS_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(fiPackage, PHONE_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(fiPackage, MICROPHONE_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(fiPackage, LOCATION_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(fiPackage, SMS_PERMISSIONS, userId);
+            }
+            mService.mSettings.onDefaultRuntimePermissionsGrantedLPr(userId);	
+
+            // ContactsProvider2
+            PackageParser.Package conpro2Package = getDefaultProviderAuthorityPackageLPr(
+                    "com.android.providers.contacts.ContactsProvider2", userId);
+            if (conpro2Package != null) {
+                grantRuntimePermissionsLPw(conpro2Package, CONTACTS_PERMISSIONS, true, userId);
+                grantRuntimePermissionsLPw(conpro2Package, STORAGE_PERMISSIONS, true, userId);
+            }
+            mService.mSettings.onDefaultRuntimePermissionsGrantedLPr(userId);
         }
     }
 

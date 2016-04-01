@@ -615,6 +615,13 @@ public class CarrierConfigManager {
     public static final String KEY_BROADCAST_EMERGENCY_CALL_STATE_CHANGES_BOOL =
             "broadcast_emergency_call_state_changes_bool";
 
+    /**
+    * Boolean to decide whether to show precise call failed cause to user
+    * @hide
+    */
+    public static final String KEY_SUPPORT_PRECISE_FAILED_CAUSE_BOOL =
+            "support_show_precise_failed_cause_bool";
+
     // These variables are used by the MMS service and exposed through another API, {@link
     // SmsManager}. The variable names and string values are copied from there.
     public static final String KEY_MMS_ALIAS_ENABLED_BOOL = "aliasEnabled";
@@ -859,6 +866,7 @@ public class CarrierConfigManager {
         // Used for Sim card State detection app
         sDefaults.putStringArray(KEY_SIM_PROVISIONING_STATUS_DETECTION_CARRIER_APP_STRING_ARRAY,
                 null);
+        sDefaults.putBoolean(KEY_SUPPORT_PRECISE_FAILED_CAUSE_BOOL, false);
     }
 
     /**

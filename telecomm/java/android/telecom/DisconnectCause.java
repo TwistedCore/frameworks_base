@@ -78,7 +78,9 @@ public final class DisconnectCause implements Parcelable {
     public static final int CALL_PULLED = 12;
 
     private int mDisconnectCode;
+    private int mPreciseDisconnectCode;
     private CharSequence mDisconnectLabel;
+    private CharSequence mPreciseDisconnectLabel;
     private CharSequence mDisconnectDescription;
     private String mDisconnectReason;
     private int mToneToPlay;
@@ -89,7 +91,7 @@ public final class DisconnectCause implements Parcelable {
      * @param code The code for the disconnect cause.
      */
     public DisconnectCause(int code) {
-        this(code, null, null, null, ToneGenerator.TONE_UNKNOWN);
+        this(code, -1, null, null, null, null, ToneGenerator.TONE_UNKNOWN);
     }
 
     /**
@@ -99,7 +101,7 @@ public final class DisconnectCause implements Parcelable {
      * @param reason The reason for the disconnect.
      */
     public DisconnectCause(int code, String reason) {
-        this(code, null, null, reason, ToneGenerator.TONE_UNKNOWN);
+        this(code, -1, null, null, null, reason, ToneGenerator.TONE_UNKNOWN);
     }
 
     /**
@@ -111,7 +113,7 @@ public final class DisconnectCause implements Parcelable {
      * @param reason The reason for the disconnect.
      */
     public DisconnectCause(int code, CharSequence label, CharSequence description, String reason) {
-        this(code, label, description, reason, ToneGenerator.TONE_UNKNOWN);
+        this(code, -1, label, null, description, reason, ToneGenerator.TONE_UNKNOWN);
     }
 
     /**
@@ -125,8 +127,27 @@ public final class DisconnectCause implements Parcelable {
      */
     public DisconnectCause(int code, CharSequence label, CharSequence description, String reason,
             int toneToPlay) {
+        this(code, -1, label, null, description, reason, toneToPlay);
+    }
+
+    /**
+     * Creates a new DisconnectCause.
+     *
+     * @param code The code for the disconnect cause.
+     * @param preciseCode The code for the precise disconnect cause.
+     * @param label The localized label to show to the user to explain the disconnect.
+     * @param preciseLabel The localized label to show to the user to explain the precise
+     *        disconnect.
+     * @param description The localized description to show to the user to explain the disconnect.
+     * @param reason The reason for the disconnect.
+     * @param toneToPlay The tone to play on disconnect, as defined in {@link ToneGenerator}.
+     */
+    public DisconnectCause(int code, int preciseCode, CharSequence label, CharSequence preciseLabel,
+            CharSequence description, String reason, int toneToPlay) {
         mDisconnectCode = code;
+        mPreciseDisconnectCode = preciseCode;
         mDisconnectLabel = label;
+        mPreciseDisconnectLabel = preciseLabel;
         mDisconnectDescription = description;
         mDisconnectReason = reason;
         mToneToPlay = toneToPlay;
@@ -142,6 +163,15 @@ public final class DisconnectCause implements Parcelable {
     }
 
     /**
+     * Returns the code for the reason for this precise disconnect.
+     *
+     * @return The precise disconnect code.
+     */
+    public int getPreciseCode() {
+        return mPreciseDisconnectCode;
+    }
+
+    /**
      * Returns a short label which explains the reason for the disconnect cause and is for display
      * in the user interface. If not null, it is expected that the In-Call UI should display this
      * text where it would normally display the call state ("Dialing", "Disconnected") and is
@@ -152,6 +182,19 @@ public final class DisconnectCause implements Parcelable {
      */
     public CharSequence getLabel() {
         return mDisconnectLabel;
+    }
+
+    /**
+     * Returns a short label which explains the reason for the precise disconnect cause and is for
+     * display in the user interface. If not null, it is expected that the In-Call UI should display
+     * this text where it would normally display the call state ("Dialing", "Disconnected") and is
+     * therefore expected to be relatively small. The {@link ConnectionService } is responsible for
+     * providing and localizing this label. If there is no string provided, returns null.
+     *
+     * @return The precise disconnect label.
+     */
+    public CharSequence getPreciseLabel() {
+        return mPreciseDisconnectLabel;
     }
 
     /**
@@ -191,11 +234,14 @@ public final class DisconnectCause implements Parcelable {
         @Override
         public DisconnectCause createFromParcel(Parcel source) {
             int code = source.readInt();
+            int preciseCode = source.readInt();
             CharSequence label = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(source);
+            CharSequence preciseLabel = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(source);
             CharSequence description = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(source);
             String reason = source.readString();
             int tone = source.readInt();
-            return new DisconnectCause(code, label, description, reason, tone);
+            return new DisconnectCause(code, preciseCode,
+                    label, preciseLabel, description, reason, tone);
         }
 
         @Override
@@ -207,7 +253,9 @@ public final class DisconnectCause implements Parcelable {
     @Override
     public void writeToParcel(Parcel destination, int flags) {
         destination.writeInt(mDisconnectCode);
+        destination.writeInt(mPreciseDisconnectCode);
         TextUtils.writeToParcel(mDisconnectLabel, destination, flags);
+        TextUtils.writeToParcel(mPreciseDisconnectLabel, destination, flags);
         TextUtils.writeToParcel(mDisconnectDescription, destination, flags);
         destination.writeString(mDisconnectReason);
         destination.writeInt(mToneToPlay);
@@ -221,7 +269,9 @@ public final class DisconnectCause implements Parcelable {
     @Override
     public int hashCode() {
         return Objects.hashCode(mDisconnectCode)
+                + Objects.hashCode(mPreciseDisconnectCode)
                 + Objects.hashCode(mDisconnectLabel)
+                + Objects.hashCode(mPreciseDisconnectLabel)
                 + Objects.hashCode(mDisconnectDescription)
                 + Objects.hashCode(mDisconnectReason)
                 + Objects.hashCode(mToneToPlay);
@@ -232,7 +282,9 @@ public final class DisconnectCause implements Parcelable {
         if (o instanceof DisconnectCause) {
             DisconnectCause d = (DisconnectCause) o;
             return Objects.equals(mDisconnectCode, d.getCode())
+                    && Objects.equals(mPreciseDisconnectCode, d.getPreciseCode())
                     && Objects.equals(mDisconnectLabel, d.getLabel())
+                    && Objects.equals(mPreciseDisconnectLabel, d.getPreciseLabel())
                     && Objects.equals(mDisconnectDescription, d.getDescription())
                     && Objects.equals(mDisconnectReason, d.getReason())
                     && Objects.equals(mToneToPlay, d.getTone());

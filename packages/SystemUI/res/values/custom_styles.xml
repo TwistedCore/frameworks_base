@@ -16,10 +16,17 @@
  -->
 
 <resources>
+    <!-- Base battery metter drawable style -->
+    <style name="BatteryMeterViewDrawable">
+        <!-- Gravity used for positioning text within the battery meter -->
+        <item name="android:gravity">center</item>
+        <item name="blendMode">clear</item>
+    </style>
 
-    <!-- Custom Carrier Label -->
-    <color name="status_bar_carrier_color">#FFFFFFFF</color>
-
-    <!-- Status bar battery level text color -->
-    <color name="status_bar_battery_level_text_color">#ffffff</color>
+    <!-- Battery meter drawable styles -->
+    <style name="BatteryMeterViewDrawable.Portrait"/>
+    <style name="BatteryMeterViewDrawable.Landscape"/>
+    <style name="BatteryMeterViewDrawable.Circle">
+        <item name="blendMode">overlay</item>
+    </style>
 </resources>

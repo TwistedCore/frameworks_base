@@ -646,6 +646,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean mNoAnimationOnNextBarModeChange;
     private FalsingManager mFalsingManager;
 
+    private KeyguardUpdateMonitorCallback mUpdateCallback = new KeyguardUpdateMonitorCallback() {
+        @Override
+        public void onDreamingStateChanged(boolean dreaming) {
+            if (dreaming) {
+                maybeEscalateHeadsUp();
+            }
+        }
+    };
+
     @Override
     public void start() {
         mDisplay = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE))
@@ -683,8 +692,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mUnlockMethodCache.addListener(this);
         startKeyguard();
 
+        KeyguardUpdateMonitor.getInstance(mContext).registerCallback(mUpdateCallback);
+
         mDozeServiceHost = new DozeServiceHost();
-        KeyguardUpdateMonitor.getInstance(mContext).registerCallback(mDozeServiceHost);
         putComponent(DozeHost.class, mDozeServiceHost);
         putComponent(PhoneStatusBar.class, this);
 
@@ -4780,7 +4790,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     }
 
-    private final class DozeServiceHost extends KeyguardUpdateMonitorCallback implements DozeHost  {
+    private final class DozeServiceHost implements DozeHost {
         // Amount of time to allow to update the time shown on the screen before releasing
         // the wakelock.  This timeout is design to compensate for the fact that we don't
         // currently have a way to know when time display contents have actually been

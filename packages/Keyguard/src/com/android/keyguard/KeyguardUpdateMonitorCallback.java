@@ -240,4 +240,10 @@ public class KeyguardUpdateMonitorCallback {
      * has changed.
      */
     public void onStrongAuthStateChanged(int userId) { }
+
+    /**
+     * Called when the dream's window state is changed.
+     * @param dreaming true if the dream's window has been created and is visible
+     */
+    public void onDreamingStateChanged(boolean dreaming) { }
 }

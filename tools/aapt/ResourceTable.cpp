@@ -2789,7 +2789,6 @@ ResourceTable::validateLocalizations(void)
     for (const auto& nameIter : mLocalizations) {
         const std::map<String8, SourcePos>& configSrcMap = nameIter.second;
 
-#ifdef SHOW_DEFAULT_TRANSLATION_WARNINGS
         // Look for strings with no default localization
         if (configSrcMap.count(defaultLocale) == 0) {
             SourcePos().warning("string '%s' has no default translation.",
@@ -2801,8 +2800,7 @@ ResourceTable::validateLocalizations(void)
             }
             // !!! TODO: throw an error here in some circumstances
         }
-#endif
-#ifdef SHOW_LOCALIZATION_WARNINGS
+
         // Check that all requested localizations are present for this string
         if (mBundle->getConfigurations().size() > 0 && mBundle->getRequireLocalization()) {
             const char* allConfigs = mBundle->getConfigurations().string();
@@ -2852,7 +2850,6 @@ ResourceTable::validateLocalizations(void)
                         configStr.string());
             }
         }
-#endif
     }
 
     return err;

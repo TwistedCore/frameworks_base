@@ -2744,6 +2744,5 @@
     <public type="style" name="Theme.Material.DayNight.NoActionBar.Overscan" />
     <public type="style" name="Theme.Material.DayNight.NoActionBar.TranslucentDecor" />
     <public type="style" name="Theme.Material.DayNight.Panel" />
-    <public type="style" name="Theme.Material.Light.DialogWhenLarge.DarkActionBar" />
     <public type="style" name="Theme.Material.DayNight.DialogWhenLarge.DarkActionBar" />
 </resources>

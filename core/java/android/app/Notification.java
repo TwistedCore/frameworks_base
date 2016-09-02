@@ -2374,7 +2374,6 @@ public class Notification implements Parcelable
             if (!mColorUtilInited) {
                 mColorUtilInited = true;
                 mColorUtil = NotificationColorUtil.getInstance(mContext);
-                }
             }
             return mColorUtil;
         }

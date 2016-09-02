@@ -17,15 +17,7 @@
  */
 -->
 
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="32dp"
-    android:height="32dp"
-    android:viewportWidth="32.0"
-    android:viewportHeight="32.0"
-    android:tint="?attr/colorAccent">
-    <path
-        android:fillColor="#6d6d6c"
-        android:pathData="M7.1,8.9l5.2,5.2L6,18.1v2.1l8.4-2.6v5.8l-2.1,1.6v1.6l3.7-1l3.7,1v-1.6l-2.1-1.6
-v-3.9l6,6l1.3-1.3L8.4,7.6L7.1,8.9z M17.6,12.9V7.1c0-0.9-0.7-1.6-1.6-1.6s-1.6,0.7-1.6,1.6v3.9l8.2,8.2l3.3,1v-2.1L17.6,12.9z" />
-
-</vector>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@drawable/ic_audio_notification_mute_am_alpha"
+    android:autoMirrored="true"
+    android:tint="?attr/colorAccent" />

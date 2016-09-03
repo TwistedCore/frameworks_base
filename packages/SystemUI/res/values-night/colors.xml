@@ -5,10 +5,13 @@
     <color name="system_accent_color">@*android:color/material_deep_teal_500</color>
     <color name="qs_detail_transition">@*android:color/material_grey_850</color>
 
+    <!-- Tint color for the content on the notification overflow card. -->
+    <color name="keyguard_overflow_content_color">@*android:color/material_grey_800</color>
+
     <!-- The "inside" of a notification, reached via longpress -->
     <color name="notification_guts_bg_color">@color/system_secondary_color</color>
-    <color name="notification_guts_icon_tint">#A8FFFFFF</color>
-    <color name="notification_guts_disabled_icon_tint">#4dFFFFFF</color>
+    <color name="notification_guts_icon_tint">@*android:color/material_grey_800</color>
+    <color name="notification_guts_disabled_icon_tint">@*android:color/material_grey_800</color>
 
     <!-- The color of the legacy notification background -->
     <color name="notification_legacy_background_color">@*android:color/material_grey_850</color>

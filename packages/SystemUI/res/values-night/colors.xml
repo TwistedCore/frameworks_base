@@ -4,6 +4,7 @@
     <color name="system_secondary_color">@*android:color/material_grey_800</color>
     <color name="system_accent_color">@*android:color/material_deep_teal_500</color>
     <color name="qs_detail_transition">@*android:color/material_grey_850</color>
+    <color name="system_accent_color">@*android:color/material_deep_teal_500</color>
 
     <!-- Tint color for the content on the notification overflow card. -->
     <color name="keyguard_overflow_content_color">@*android:color/material_grey_800</color>
@@ -23,4 +24,6 @@
     <color name="notification_material_background_low_priority_color">@*android:color/material_grey_850</color>
     <!-- The background color of the notification shade -->
     <color name="notification_shade_background_color">@*android:color/material_grey_850</color>
+
+
 </resources>

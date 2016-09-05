@@ -30,4 +30,7 @@
     <color name="material_deep_teal_200">#ff009688</color>
 
     <color name="notification_action_list">#ff263238</color>
+
+    <color name="resolver_list_bg">@color/material_grey_850</color>
+    <color name="app_permission_icon_tint">@color/material_deep_teal_200</color>
 </resources>

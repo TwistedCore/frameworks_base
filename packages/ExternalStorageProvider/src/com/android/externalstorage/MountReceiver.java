@@ -20,12 +20,20 @@ import android.content.BroadcastReceiver;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 public class MountReceiver extends BroadcastReceiver {
+    private static final String TAG = "MountReceiver";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         final ContentProviderClient client = context.getContentResolver()
                 .acquireContentProviderClient(ExternalStorageProvider.AUTHORITY);
+        if (client == null) {
+            Log.e(TAG, "Failed to find provider info for "
+                                    + ExternalStorageProvider.AUTHORITY);
+            return;
+        }
         try {
             ((ExternalStorageProvider) client.getLocalContentProvider()).updateVolumes();
         } finally {

@@ -136,7 +136,7 @@ android_mtp_MtpServer_send_object_updated(JNIEnv *env, jobject thiz, jint handle
 
     MtpServer* server = getMtpServer(env, thiz);
     if (server)
-        server->sendObjectUpdated(handle);
+        server->sendObjectAdded(handle);
     else
         ALOGE("server is null in send_object_updated");
 }

@@ -3544,6 +3544,24 @@ public final class Settings {
 
         /**
          * Beginning of PureNexus System Settings Additions
+         * IMPORTANT: If you add a new public settings you also have to add it to
+         * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
+         * it to PRIVATE_SETTINGS below. Also add a validator that can validate
+         * the setting value. See an example above.
+         */
+
+        /**
+         * Immersive recents options
+         *
+         * 0 = Default AOSP look
+         * 1 = Statusbar only
+         * 2 = Navbar only
+         * 3 = Fullscreen
+         */
+        public static final String IMMERSIVE_RECENTS = "immersive_recents";
+
+        /** Whether to allow one finger quick settings expansion on the right side of the statusbar.
+         *
          * @hide
          */
 

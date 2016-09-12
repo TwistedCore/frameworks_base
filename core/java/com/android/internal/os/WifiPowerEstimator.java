@@ -38,7 +38,7 @@ public class WifiPowerEstimator extends PowerCalculator {
     }
 
     /**
-     * Return estimated power (in mAs) of sending a byte with the Wi-Fi radio.
+     * Return estimated power per Wi-Fi packet in mAh/packet where 1 packet = 2 KB.
      */
     private static double getWifiPowerPerPacket(PowerProfile profile) {
         final long WIFI_BPS = 1000000; // TODO: Extract average bit rates from system

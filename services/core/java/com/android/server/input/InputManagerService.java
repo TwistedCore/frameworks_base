@@ -561,15 +561,6 @@ public class InputManagerService extends IInputManager.Stub
         }
     }
 
-    private int findInputFilterIndexLocked(IInputFilter filter) {
-        for (int i = 0; i < mInputFilterChain.size(); i++) {
-            if (mInputFilterChain.get(i).mInputFilter == filter) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     @Override // Binder call
     public boolean injectInputEvent(InputEvent event, int mode) {
         return injectInputEventInternal(event, Display.DEFAULT_DISPLAY, mode);

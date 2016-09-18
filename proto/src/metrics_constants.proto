@@ -2222,5 +2222,11 @@ message MetricsEvent {
     // END OF AOSP CONSTANTS
 
    TWISTED = 411;
+   
+    // PureNexus Settings
+    PURE_SETTINGS = 420;
+
+    // PureNexus Tiles
+    PURE_QS = 421;
   }
 }

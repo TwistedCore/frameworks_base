@@ -515,7 +515,6 @@ public abstract class ContentResolver {
         if (unstableProvider == null) {
             return null;
         }
-        IContentProvider stableProvider = null;
         Cursor qCursor = null;
         try {
             long startTime = SystemClock.uptimeMillis();
@@ -534,11 +533,12 @@ public abstract class ContentResolver {
                 // reference though, so we might recover!!!  Let's try!!!!
                 // This is exciting!!1!!1!!!!1
                 unstableProviderDied(unstableProvider);
-                stableProvider = acquireProvider(uri);
-                if (stableProvider == null) {
+                unstableProvider =null;
+                unstableProvider = acquireUnstableProvider(uri);
+                if (unstableProvider == null) {
                     return null;
                 }
-                qCursor = stableProvider.query(mPackageName, uri, projection,
+                qCursor = unstableProvider.query(mPackageName, uri, projection,
                         selection, selectionArgs, sortOrder, remoteCancellationSignal);
             }
             if (qCursor == null) {
@@ -551,10 +551,8 @@ public abstract class ContentResolver {
             maybeLogQueryToEventLog(durationMillis, uri, projection, selection, sortOrder);
 
             // Wrap the cursor object into CursorWrapperInner object.
-            final IContentProvider provider = (stableProvider != null) ? stableProvider
-                    : acquireProvider(uri);
+            final IContentProvider provider = acquireProvider(uri);
             final CursorWrapperInner wrapper = new CursorWrapperInner(qCursor, provider);
-            stableProvider = null;
             qCursor = null;
             return wrapper;
         } catch (RemoteException e) {
@@ -570,9 +568,6 @@ public abstract class ContentResolver {
             }
             if (unstableProvider != null) {
                 releaseUnstableProvider(unstableProvider);
-            }
-            if (stableProvider != null) {
-                releaseProvider(stableProvider);
             }
         }
     }
@@ -985,7 +980,6 @@ public abstract class ContentResolver {
                 if (unstableProvider == null) {
                     throw new FileNotFoundException("No content provider: " + uri);
                 }
-                IContentProvider stableProvider = null;
                 AssetFileDescriptor fd = null;
 
                 try {
@@ -1008,11 +1002,12 @@ public abstract class ContentResolver {
                         // reference though, so we might recover!!!  Let's try!!!!
                         // This is exciting!!1!!1!!!!1
                         unstableProviderDied(unstableProvider);
-                        stableProvider = acquireProvider(uri);
-                        if (stableProvider == null) {
+                        unstableProvider = null;
+                        unstableProvider = acquireUnstableProvider(uri);
+                        if (unstableProvider == null) {
                             throw new FileNotFoundException("No content provider: " + uri);
                         }
-                        fd = stableProvider.openAssetFile(
+                        fd = unstableProvider.openAssetFile(
                                 mPackageName, uri, mode, remoteCancellationSignal);
                         if (fd == null) {
                             // The provider will be released by the finally{} clause
@@ -1020,17 +1015,10 @@ public abstract class ContentResolver {
                         }
                     }
 
-                    if (stableProvider == null) {
-                        stableProvider = acquireProvider(uri);
-                    }
                     releaseUnstableProvider(unstableProvider);
                     unstableProvider = null;
                     ParcelFileDescriptor pfd = new ParcelFileDescriptorInner(
-                            fd.getParcelFileDescriptor(), stableProvider);
-
-                    // Success!  Don't release the provider when exiting, let
-                    // ParcelFileDescriptorInner do that when it is closed.
-                    stableProvider = null;
+                            fd.getParcelFileDescriptor(), acquireProvider(uri));
 
                     return new AssetFileDescriptor(pfd, fd.getStartOffset(),
                             fd.getDeclaredLength());
@@ -1044,9 +1032,6 @@ public abstract class ContentResolver {
                 } finally {
                     if (cancellationSignal != null) {
                         cancellationSignal.setRemote(null);
-                    }
-                    if (stableProvider != null) {
-                        releaseProvider(stableProvider);
                     }
                     if (unstableProvider != null) {
                         releaseUnstableProvider(unstableProvider);
@@ -1130,7 +1115,6 @@ public abstract class ContentResolver {
         if (unstableProvider == null) {
             throw new FileNotFoundException("No content provider: " + uri);
         }
-        IContentProvider stableProvider = null;
         AssetFileDescriptor fd = null;
 
         try {
@@ -1153,11 +1137,12 @@ public abstract class ContentResolver {
                 // reference though, so we might recover!!!  Let's try!!!!
                 // This is exciting!!1!!1!!!!1
                 unstableProviderDied(unstableProvider);
-                stableProvider = acquireProvider(uri);
-                if (stableProvider == null) {
+                unstableProvider = null;
+                unstableProvider = acquireUnstableProvider(uri);
+                if (unstableProvider == null) {
                     throw new FileNotFoundException("No content provider: " + uri);
                 }
-                fd = stableProvider.openTypedAssetFile(
+                fd = unstableProvider.openTypedAssetFile(
                         mPackageName, uri, mimeType, opts, remoteCancellationSignal);
                 if (fd == null) {
                     // The provider will be released by the finally{} clause
@@ -1165,17 +1150,10 @@ public abstract class ContentResolver {
                 }
             }
 
-            if (stableProvider == null) {
-                stableProvider = acquireProvider(uri);
-            }
             releaseUnstableProvider(unstableProvider);
             unstableProvider = null;
             ParcelFileDescriptor pfd = new ParcelFileDescriptorInner(
-                    fd.getParcelFileDescriptor(), stableProvider);
-
-            // Success!  Don't release the provider when exiting, let
-            // ParcelFileDescriptorInner do that when it is closed.
-            stableProvider = null;
+                    fd.getParcelFileDescriptor(), acquireProvider(uri));
 
             return new AssetFileDescriptor(pfd, fd.getStartOffset(),
                     fd.getDeclaredLength());
@@ -1189,9 +1167,6 @@ public abstract class ContentResolver {
         } finally {
             if (cancellationSignal != null) {
                 cancellationSignal.setRemote(null);
-            }
-            if (stableProvider != null) {
-                releaseProvider(stableProvider);
             }
             if (unstableProvider != null) {
                 releaseUnstableProvider(unstableProvider);

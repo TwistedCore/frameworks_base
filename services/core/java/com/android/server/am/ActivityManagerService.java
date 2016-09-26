@@ -11474,7 +11474,8 @@ public final class ActivityManagerService extends ActivityManagerNative
         final ProcessRecord r = new ProcessRecord(stats, info, proc, uid);
         if (!mBooted && !mBooting
                 && userId == UserHandle.USER_SYSTEM
-                && (info.flags & PERSISTENT_MASK) == PERSISTENT_MASK) {
+                && (info.flags & PERSISTENT_MASK) == PERSISTENT_MASK
+                && r.processName.equals(info.processName)) {
             r.persistent = true;
             r.maxAdj = ProcessList.PERSISTENT_PROC_ADJ;
         }

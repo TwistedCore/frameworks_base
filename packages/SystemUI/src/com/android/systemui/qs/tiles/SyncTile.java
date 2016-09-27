@@ -65,7 +65,7 @@ public class SyncTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public int getMetricsCategory() {
-        return MetricsEvent.BENZO;
+        return MetricsEvent.TWISTED;
     }
 
     @Override

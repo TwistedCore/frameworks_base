@@ -145,7 +145,6 @@ public class NightModeFragment extends PreferenceFragment implements Tunable,
                     MetricsEvent.ACTION_TUNER_NIGHT_MODE_ADJUST_DARK_THEME, value);
             mUiModeManager.setNightMode(value ? UiModeManager.MODE_NIGHT_AUTO
                     : UiModeManager.MODE_NIGHT_NO);
-            postCalculateDisabled();
         } else if (mAdjustTint == preference) {
             MetricsLogger.action(getContext(),
                     MetricsEvent.ACTION_TUNER_NIGHT_MODE_ADJUST_TINT, value);

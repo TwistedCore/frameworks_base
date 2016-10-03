@@ -42,7 +42,7 @@
     <bool name="config_hspa_data_distinguishable">false</bool>
 
     <!-- Control whether to show VoLTE icon in statusbar when ims is registered.-->
-    <bool name="config_showVolteIcon">false</bool>
+    <bool name="config_showVolteIcon">true</bool>
 
     <!-- Component to be used as the status bar service.  Must implement the IStatusBar
      interface.  This name is in the ComponentName flattened format (package/class)  -->

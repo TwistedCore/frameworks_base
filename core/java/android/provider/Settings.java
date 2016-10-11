@@ -3742,6 +3742,11 @@ public final class Settings {
          */
         public static final String STATUS_BAR_CLOCK_DATE_FORMAT = "statusbar_clock_date_format";
 
+        /**
+         * Disable dashboard suggestions in settings
+         * @hide
+         */
+        public static final String DISABLE_SUGGESTIONS = "disable_suggestions";
 
         /**
          * Whether to control brightness from status bar

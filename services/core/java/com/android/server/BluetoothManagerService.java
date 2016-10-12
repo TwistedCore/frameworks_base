@@ -62,6 +62,7 @@ import java.util.Map;
 class BluetoothManagerService extends IBluetoothManager.Stub {
     private static final String TAG = "BluetoothManagerService";
     private static final boolean DBG = true;
+    private static final boolean VDBG = false;
 
     private static final String BLUETOOTH_ADMIN_PERM = android.Manifest.permission.BLUETOOTH_ADMIN;
     private static final String BLUETOOTH_PERM = android.Manifest.permission.BLUETOOTH;
@@ -1635,7 +1636,7 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
                     parentUser == foregroundUser    ||
                     callingAppId == Process.NFC_UID ||
                     callingAppId == mSystemUiUid;
-            if (DBG) {
+            if (VDBG) {
                 Slog.d(TAG, "checkIfCallerIsForegroundUser: valid=" + valid
                     + " callingUser=" + callingUser
                     + " parentUser=" + parentUser

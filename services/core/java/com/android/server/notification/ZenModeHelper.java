@@ -752,7 +752,8 @@ public class ZenModeHelper {
     }
 
     private void applyRestrictions(boolean mute, int usage) {
-        final String[] exceptionPackages = null; // none (for now)
+        final String[] exceptionPackages = Resources.getSystem().getStringArray(
+                com.android.internal.R.array.config_exceptionPackagesInTotalSilence);
         mAppOps.setRestriction(AppOpsManager.OP_VIBRATE, usage,
                 mute ? AppOpsManager.MODE_IGNORED : AppOpsManager.MODE_ALLOWED,
                 exceptionPackages);

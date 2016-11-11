@@ -2572,4 +2572,8 @@
 
     <!-- An array of packages for which notifications cannot be blocked. -->
     <string-array translatable="false" name="config_nonBlockableNotificationPackages" />
+
+    <!-- Exception package list in total silence mode -->
+    <string-array translatable="false" name="config_exceptionPackagesInTotalSilence">
+    </string-array>
 </resources>

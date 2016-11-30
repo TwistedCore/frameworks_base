@@ -19,11 +19,14 @@ package com.android.systemui.statusbar.phone;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.UserManager;
+import android.os.UserManager;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -93,6 +96,12 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     private View mEdit;
     private boolean mShowFullAlarm;
     private float mDateTimeTranslation;
+
+    private boolean noSettingsIcon;
+    private boolean noSettingsExpanded;
+    private boolean noEdit;
+    private boolean noExpandIndicator;
+    private boolean noMultiUserSwitch;
 
     public QuickStatusBarHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -278,8 +287,20 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
                 TunerService.isTunerEnabled(mContext) ? View.VISIBLE : View.INVISIBLE);
         final boolean isDemo = UserManager.isDeviceInDemoMode(mContext);
         mMultiUserSwitch.setVisibility(mExpanded && mMultiUserSwitch.hasMultipleUsers() && !isDemo
-                ? View.VISIBLE : View.INVISIBLE);
-        mEdit.setVisibility(isDemo || !mExpanded ? View.INVISIBLE : View.VISIBLE);
+                ? View.VISIBLE : View.GONE);
+        noEdit = isEditDisabled();
+        mEdit.setVisibility(noEdit || isDemo || !mExpanded ? View.GONE : View.VISIBLE);
+        noSettingsIcon = isSettingsIconDisabled();
+        noSettingsExpanded = isSettingsExpandedDisabled();
+        mSettingsButton.setVisibility(!mExpanded && noSettingsExpanded || noSettingsIcon
+                ? View.GONE : View.VISIBLE);
+        mSettingsContainer.setVisibility(
+                !mExpanded && noSettingsExpanded || noSettingsIcon ? View.GONE : View.VISIBLE);
+        noExpandIndicator = isExpandIndicatorDisabled();
+        mExpandIndicator.setVisibility(noExpandIndicator ? View.GONE : View.VISIBLE);
+        noMultiUserSwitch = isMultiUserSwitchDisabled();
+        mMultiUserSwitch.setVisibility(noMultiUserSwitch ? View.GONE : View.VISIBLE);
+        mMultiUserAvatar.setVisibility(noMultiUserSwitch ? View.GONE : View.VISIBLE);
     }
 
     private void updateDateTimePosition() {
@@ -294,7 +315,6 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
             mNextAlarmController.removeStateChangedCallback(this);
         }
     }
-
     @Override
     public void setActivityStarter(ActivityStarter activityStarter) {
         mActivityStarter = activityStarter;
@@ -418,5 +438,30 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         if (mHeaderQsPanel != null) {
             mHeaderQsPanel.updateSettings();
         }
+    }
+
+    public boolean isSettingsIconDisabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.QS_SETTINGS_ICON_TOGGLE, 0) == 1;
+    }
+
+    public boolean isSettingsExpandedDisabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.QS_SETTINGS_EXPANDED_TOGGLE, 0) == 1;
+    }
+
+    public boolean isEditDisabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.QS_EDIT_TOGGLE, 0) == 1;
+    }
+
+    public boolean isExpandIndicatorDisabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.QS_EXPAND_INDICATOR_TOGGLE, 0) == 1;
+    }
+
+    public boolean isMultiUserSwitchDisabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.QS_MULTIUSER_SWITCH_TOGGLE, 0) == 1;
     }
 }

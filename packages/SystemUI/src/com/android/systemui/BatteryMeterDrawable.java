@@ -548,7 +548,7 @@ public class BatteryMeterDrawable extends Drawable implements
         final float textSize;
         switch(mStyle) {
             case 2:
-                textSize = widthDiv2 - mContext.getResources().getDisplayMetrics().density / 1.3f;
+                textSize = widthDiv2;
                 break;
             case 5:
                 textSize = widthDiv2 * 1.3f;

@@ -187,14 +187,14 @@ public class BatteryMeterDrawable extends Drawable implements
         final int resId = getBatteryDrawableStyleResourceForStyle(style);
         PorterDuff.Mode xferMode = PorterDuff.Mode.XOR;
         if (resId != 0) {
-            TypedArray a = mContext.obtainStyledAttributes(
-                    getBatteryDrawableStyleResourceForStyle(style), attrs);
+            TypedArray a = mContext.obtainStyledAttributes(resId, attrs);
             mTextGravity = a.getInt(0, Gravity.CENTER);
             if (mBoltOverlay) {
                 xferMode = PorterDuff.Mode.OVERLAY;
             } else {
                 xferMode = PorterDuff.intToMode(a.getInt(1, PorterDuff.modeToInt(PorterDuff.Mode.XOR)));
             }
+            a.recycle();
         } else {
             mTextGravity = Gravity.CENTER;
         }
@@ -312,8 +312,8 @@ public class BatteryMeterDrawable extends Drawable implements
         }
         final float[] ptsF = new float[pts.length];
         for (int i = 0; i < pts.length; i += 2) {
-            ptsF[i] = (float)pts[i] / maxX;
-            ptsF[i + 1] = (float)pts[i + 1] / maxY;
+            ptsF[i] = (float) pts[i] / maxX;
+            ptsF[i + 1] = (float) pts[i + 1] / maxY;
         }
         return ptsF;
     }

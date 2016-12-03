@@ -382,6 +382,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     // settings
     private QSPanel mQSPanel;
 
+    // data/wifi activity arrows
+    private boolean mDataWifiActivityArrows;
+
     // top bar
     BaseStatusBarHeader mHeader;
     protected KeyguardStatusBarView mKeyguardStatusBar;
@@ -575,6 +578,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BLUR_MIXED_COLOR_PREFERENCE_KEY), 
                     false, this);
+           resolver.registerContentObserver(Settings.System.getUriFor(
+                  Settings.System.DATA_ACTIVITY_ARROWS),
+                  false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -601,7 +607,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                           0, UserHandle.USER_CURRENT) == 1;
                     RecentsActivity.startBlurTask();
                     updatePreferences(mContext);
-           }
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.DATA_ACTIVITY_ARROWS))) {
+                    mDataWifiActivityArrows = Settings.System.getIntForUser(
+                            mContext.getContentResolver(),
+                            Settings.System.DATA_ACTIVITY_ARROWS,
+                            0, UserHandle.USER_CURRENT) == 1;
+            }
             update();
         }
 

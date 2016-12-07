@@ -2215,5 +2215,16 @@ message MetricsEvent {
 
     // Add new aosp constants above this line.
     // END OF AOSP CONSTANTS
+
+   TWISTED = 423;
+   
+    // PureNexus Settings
+    PURE_SETTINGS = 420;
+
+    // PureNexus Tiles
+    PURE_QS = 421;
+    
+    // Flash Metrics
+    FLASH = 422;
   }
 }

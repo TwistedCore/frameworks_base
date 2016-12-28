@@ -210,6 +210,11 @@ public final class ObexHelper {
                         index++;
                         length += 0xFF & headerArray[index];
                         length -= 3;
+                        if (length <= 0) {
+                            Log.e(TAG, "Remote not sending proper Obex connect response"
+                                        + " length :" + length );
+                            break;
+                        }
                         index++;
                         value = new byte[length];
                         System.arraycopy(headerArray, index, value, 0, length);

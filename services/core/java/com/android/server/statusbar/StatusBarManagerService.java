@@ -461,7 +461,6 @@ public class StatusBarManagerService extends IStatusBarService.Stub {
         }
     }
 
-    @Override
     public void restartUI() {
         mContext.enforceCallingOrSelfPermission(android.Manifest.permission.RESTART_UI,
                 "StatusBarManagerService");

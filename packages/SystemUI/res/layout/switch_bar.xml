@@ -34,7 +34,7 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
-        android:textColor="?android:attr/textColorPrimaryInverse"
+        android:textColor="@color/switch_bar_text_color"
         android:textAlignment="viewStart"
         android:text="@string/switch_bar_on" />
 

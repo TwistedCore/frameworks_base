@@ -3714,6 +3714,12 @@ public final class Settings {
         public static final String NAV_BAR_DYNAMIC = "nav_bar_dynamic";
 
         /**
+         * Whether to hide Settings drawer
+         * @hide
+         */
+        public static final String SHOW_SETTINGS_DRAWER = "show_settings_drawer";
+
+        /**
          * Defines the shortcuts to be shown on lockscreen
          * Usage is like this: target:icon|target:icon|target:icon
          * if :icon is not set, default application icon will be used

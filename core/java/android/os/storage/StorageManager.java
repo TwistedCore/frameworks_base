@@ -941,11 +941,17 @@ public class StorageManager {
     }
 
     private long readLong(String path) {
+        final boolean fileExists = new File(path).exists();
+        if (!fileExists) {
+            Log.i(TAG, "Path " + path + " doesn't exist");
+            return 0;
+        }
+
         try (final FileInputStream fis = new FileInputStream(path);
                 final BufferedReader reader = new BufferedReader(new InputStreamReader(fis));) {
             return Long.parseLong(reader.readLine());
         } catch (Exception e) {
-            Slog.w(TAG, "Could not read " + path, e);
+            Slog.w(TAG, "Could not parse " + path, e);
             return 0;
         }
     }

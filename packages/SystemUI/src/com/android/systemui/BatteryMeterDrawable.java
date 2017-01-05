@@ -282,8 +282,7 @@ public class BatteryMeterDrawable extends Drawable implements
     public void onBatteryLevelChanged(int level, boolean pluggedIn, boolean charging) {
         mLevel = level;
         mPluggedIn = pluggedIn;
-        if ((Settings.Secure.getInt(mContext.getContentResolver(),
-                 Settings.Secure.STATUS_BAR_BATTERY_STYLE, 0) == 2)) {
+        if (mStyle == BATTERY_STYLE_CIRCLE) {
             animateCircleBattery(level, pluggedIn, charging);
         }
         postInvalidate();

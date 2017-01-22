@@ -3796,10 +3796,28 @@ public final class Settings {
         public static final String INCREASING_RING = "increasing_ring";
 
         /**
+         * Disable dashboard conditions in settings
+         * @hide
+         */
+        public static final String DISABLE_DASHBOARD_CONDITIONS = "disable_dashboard_conditions";
+
+        /**
          * Start volume fraction for increasing ring volume
          * @hide
          */
         public static final String INCREASING_RING_START_VOLUME = "increasing_ring_start_vol";
+
+        /**
+         * Dashboard portrait columns in settings
+         * @hide
+         */
+        public static final String DASHBOARD_PORTRAIT_COLUMNS = "dashboard_portrait_columns";
+
+        /**
+         * Dashboard landscape columns in settings
+         * @hide
+         */
+        public static final String DASHBOARD_LANDSCAPE_COLUMNS = "dashboard_landscape_columns";
 
         /**
          * Ramp up time (seconds) for increasing ring

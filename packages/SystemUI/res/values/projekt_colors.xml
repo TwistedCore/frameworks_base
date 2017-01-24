@@ -18,4 +18,6 @@
 <resources>
     <!-- Switch bar text color -->
     <color name="switch_bar_text_color">?android:attr/textColorPrimaryInverse</color>
+    <!-- External QS tile tint color -->
+    <color name="external_qs_tile_tint_color">@android:color/white</color>
 </resources>

@@ -33,6 +33,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import com.android.internal.R;
 import android.os.FileUtils;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -56,6 +57,7 @@ import com.android.internal.telephony.ITelephony;
 import com.android.server.pm.PackageManagerService;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.WindowManager;
 
 import java.io.BufferedReader;
@@ -148,6 +150,13 @@ public final class ShutdownThread extends Thread {
         return advancedRebootEnabled && !mRebootSafeMode && isPrimaryUser;
     }
 
+    private static int getDialogTheme(Context context) {
+        TypedValue outValue = new TypedValue();
+        context.getTheme().resolveAttribute(com.android.internal.R.style.ThemeOverlay_Material_Dialog,
+                outValue, true);
+        return outValue.resourceId;
+    }
+
     static void shutdownInner(final Context context, boolean confirm) {
         // ensure that only one thread is trying to power down.
         // any additional calls are just returned
@@ -194,13 +203,8 @@ public final class ShutdownThread extends Thread {
                 sConfirmDialog.dismiss();
                 sConfirmDialog = null;
             }
-            AlertDialog.Builder confirmDialogBuilder = new AlertDialog.Builder(context)
-                    .setTitle(mRebootSafeMode
-                            ? com.android.internal.R.string.reboot_safemode_title
-                            : mReboot
-                                    ? com.android.internal.R.string.global_action_reboot
-                                    : com.android.internal.R.string.power_off);
-            if (!advancedReboot || !mReboot || mRebootSafeMode) {
+            AlertDialog.Builder confirmDialogBuilder = new AlertDialog.Builder(context, getDialogTheme(context));
+            if (!advancedReboot) {
                 confirmDialogBuilder.setMessage(resourceId);
             } else {
                 confirmDialogBuilder
@@ -240,6 +244,9 @@ public final class ShutdownThread extends Thread {
             closer.dialog = sConfirmDialog;
             sConfirmDialog.setOnDismissListener(closer);
             sConfirmDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
+            WindowManager.LayoutParams attrs = sConfirmDialog.getWindow().getAttributes();
+            attrs.windowAnimations = R.style.Animation_PowermenuDialog;
+            sConfirmDialog.getWindow().setAttributes(attrs);
             sConfirmDialog.show();
         } else {
             beginShutdownSequence(context);
@@ -384,7 +391,9 @@ public final class ShutdownThread extends Thread {
         }
         pd.setCancelable(false);
         pd.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
-
+        WindowManager.LayoutParams attrs = pd.getWindow().getAttributes();
+            attrs.windowAnimations = R.style.Animation_PowermenuDialog;
+        pd.getWindow().setAttributes(attrs);
         pd.show();
 
         sInstance.mProgressDialog = pd;

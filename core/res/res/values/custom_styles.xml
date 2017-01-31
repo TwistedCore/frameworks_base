@@ -30,4 +30,10 @@
     <style name="ConfirmUserCreationActivityTheme" parent="Theme.DeviceDefault.Light.Dialog.Alert" />
     <style name="UnlaunchableAppActivityTheme" parent="Theme.DeviceDefault.Light.Dialog.Alert" />
 
+    <!-- Custom animation for the power menu dialog -->
+    <style name="Animation.PowermenuDialog">
+        <item name="windowEnterAnimation">@anim/custom_fade_in</item>
+        <item name="windowExitAnimation">@anim/custom_fade_out</item>
+    </style>
+
 </resources>

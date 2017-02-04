@@ -124,6 +124,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     private boolean noEdit;
     private boolean noExpandIndicator;
     private boolean noMultiUserSwitch;
+    private boolean hasRunningServices;
     private boolean mDateTimeGroupCenter;
 
     // omni additions
@@ -256,7 +257,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
 
     private void updateDateTimeCenter() {
         mDateTimeGroupCenter = isDateTimeGroupCenter();
-        if (mDateTimeGroupCenter && ((noSettingsIcon && noSettingsExpanded) || noEdit || noMultiUserSwitch || noExpandIndicator)) {
+        if (mDateTimeGroupCenter && ((noSettingsIcon && noSettingsExpanded) || noEdit || noMultiUserSwitch || noExpandIndicator || hasRunningServices)) {
             mDateTimeAlarmGroup.setVisibility(View.GONE);
             mDateTimeAlarmCenterGroup.setVisibility(View.VISIBLE);
         } else {
@@ -345,6 +346,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     protected void updateVisibilities() {
         updateAlarmVisibilities();
         updateDateTimePosition();
+
         mEmergencyOnly.setVisibility(mExpanded && mShowEmergencyCallsOnly
                 ? View.VISIBLE : View.INVISIBLE);
         mSettingsContainer.findViewById(R.id.tuner_icon).setVisibility(
@@ -353,6 +355,10 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         final boolean isDemo = UserManager.isDeviceInDemoMode(mContext);
         mMultiUserSwitch.setVisibility(mExpanded && mMultiUserSwitch.hasMultipleUsers() && !isDemo
                 ? View.VISIBLE : View.GONE);
+                
+        hasRunningServices = !isRunningServicesDisabled();
+        mRunningServicesButton.setVisibility(hasRunningServices ? View.VISIBLE : View.GONE);
+
         noEdit = isEditDisabled();
         mEdit.setVisibility(noEdit || isDemo || !mExpanded ? View.GONE : View.VISIBLE);
         noSettingsIcon = isSettingsIconDisabled();
@@ -536,6 +542,11 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     public boolean isDateTimeGroupCenter() {
         return Settings.System.getInt(mContext.getContentResolver(),
             Settings.System.QS_DATE_TIME_CENTER, 0) == 1;
+    }
+
+    public boolean isRunningServicesDisabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.QS_RUNNING_SERVICES_TOGGLE, 0) == 1;
     }
 
     @Override

@@ -15,57 +15,6 @@
      limitations under the License.
 -->
 <resources>
-<<<<<<< HEAD
-=======
-  <!-- Reboot - Advanced Reboot -->
-  <java-symbol type="array" name="shutdown_reboot_options" />
-  <java-symbol type="array" name="shutdown_reboot_actions" />
-  <java-symbol type="bool" name="config_advanced_reboot" />
-  <java-symbol type="drawable" name="ic_lock_power_reboot" />
-  <java-symbol type="string" name="reboot_progress" />
-  <java-symbol type="string" name="global_action_reboot" />
-
-  <!-- Intent chooser -->
-  <java-symbol type="id" name="filtered_item_container" />
-
-  <!-- Notification and battery light -->
-  <java-symbol type="bool" name="config_multiColorNotificationLed" />
-  <java-symbol type="bool" name="config_intrusiveBatteryLed" />
-  <java-symbol type="bool" name="config_multiColorBatteryLed" />
-  <java-symbol type="bool" name="config_ledCanPulse" />
-  <java-symbol type="integer" name="config_notificationsBatteryReallyFullARGB" />
-  <java-symbol type="array" name="notification_light_package_mapping" />
-  <java-symbol type="array" name="config_notificationNoAlertsVibePattern" />
-
-  <!-- Power menu -->
-  <java-symbol type="dimen" name="global_actions_avatar_size" />
-  <java-symbol type="drawable" name="ic_lock_assist" />
-  <java-symbol type="drawable" name="ic_lock_screenshot" />
-  <java-symbol type="drawable" name="ic_lock_screen_record" />
-  <java-symbol type="drawable" name="ic_lock_settings" />
-  <java-symbol type="drawable" name="ic_lock_torch" />
-  <java-symbol type="drawable" name="ic_lock_user" />
-  <java-symbol type="drawable" name="ic_lock_voice" />
-  <java-symbol type="string" name="global_action_current_user" />
-  <java-symbol type="string" name="global_action_screenshot" />
-  <java-symbol type="string" name="global_action_screen_record" />
-  <java-symbol type="string" name="global_action_search" />
-  <java-symbol type="string" name="global_action_torch" />
-  <java-symbol type="string" name="global_action_voicesearch" />
-  <!-- Power menu animations -->
-  <java-symbol type="style" name="GlobalActionsAnimation" />
-  <java-symbol type="style" name="GlobalActionsAnimationTop" />
-  <java-symbol type="style" name="GlobalActionsAnimationEnter" />
-
-  <!-- Package Manager -->
-  <java-symbol type="array" name="config_disabledComponents" />
-  <java-symbol type="array" name="config_forceEnabledComponents" />
-
-  <!-- ADB notification -->
-  <java-symbol type="string" name="adb_net_active_notification_title" />
-  <java-symbol type="string" name="adb_both_active_notification_title" />
-  <java-symbol type="string" name="adb_active_generic_notification_message" />
->>>>>>> f647bb6... Fix shutdown confirmation dialog
 
   <!-- Vendor warning -->
   <java-symbol type="string" name="system_error_vendorprint" />

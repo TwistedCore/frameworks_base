@@ -548,7 +548,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
 
     public boolean isRunningServicesDisabled() {
         return Settings.System.getInt(mContext.getContentResolver(),
-            Settings.System.QS_RUNNING_SERVICES_TOGGLE, 0) == 1;
+            Settings.System.QS_RUNNING_SERVICES_TOGGLE, 1) == 1;
     }
 
     @Override

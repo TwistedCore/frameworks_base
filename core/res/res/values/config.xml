@@ -2662,4 +2662,9 @@
     <!-- Exception package list in total silence mode -->
     <string-array translatable="false" name="config_exceptionPackagesInTotalSilence">
     </string-array>
+    
+    <!-- Whether device supports High Brightness Mode -->
+    <add-resource type="bool" name="config_supportHighBrightness"></add-resource>
+    <bool name="config_supportHighBrightness">false</bool>
+
 </resources>

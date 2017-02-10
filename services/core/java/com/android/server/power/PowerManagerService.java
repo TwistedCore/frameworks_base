@@ -173,6 +173,12 @@ public final class PowerManagerService extends SystemService
     // Default setting for double tap to wake.
     private static final int DEFAULT_DOUBLE_TAP_TO_WAKE = 0;
 
+    // Power feature to Enable High Brightness Mode
+    private static final int POWER_FEATURE_HIGH_BRIGHTNESS_MODE = 1;
+
+    // Default setting for High Brightness Mode.
+    private static final int DEFAULT_HIGH_BRIGHTNESS_MODE = 0;
+
     /** Constants for {@link #shutdownOrRebootInternal} */
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({HALT_MODE_SHUTDOWN, HALT_MODE_REBOOT, HALT_MODE_REBOOT_SAFE_MODE})

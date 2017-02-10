@@ -43,6 +43,7 @@
     <string name="accessibility_quick_settings_heads_up_on">Heads up on</string>
     <string name="accessibility_quick_settings_heads_up_changed_off">Heads up turned off</string>
     <string name="accessibility_quick_settings_heads_up_changed_on">Heads up turned on</string>
+    <string name="quick_settings_high_brightness">High Brightness</string>
 
     <!-- Recents memory bar -->
     <string name="recents_free_ram">FREE RAM</string>

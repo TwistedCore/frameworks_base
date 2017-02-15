@@ -203,9 +203,14 @@ public final class ShutdownThread extends Thread {
                 sConfirmDialog.dismiss();
                 sConfirmDialog = null;
             }
-            AlertDialog.Builder confirmDialogBuilder = new AlertDialog.Builder(context, getDialogTheme(context));
-            if (!advancedReboot) {
-                confirmDialogBuilder.setMessage(resourceId);
+            AlertDialog.Builder confirmDialogBuilder = new AlertDialog.Builder(context, getDialogTheme(context))
+                    .setTitle(mRebootSafeMode
+                            ? com.android.internal.R.string.reboot_safemode_title
+                            : mReboot
+                                    ? com.android.internal.R.string.global_action_reboot
+                                    : com.android.internal.R.string.power_off);
+            if (!advancedReboot || !mReboot || mRebootSafeMode) {
+			confirmDialogBuilder.setMessage(resourceId);
             } else {
                 confirmDialogBuilder
                       .setSingleChoiceItems(com.android.internal.R.array.shutdown_reboot_options,
